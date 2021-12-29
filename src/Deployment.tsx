@@ -63,8 +63,8 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
   return (
     <tr key={`${name}|${namespace}`}>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">{name}</div>
-        <div className="text-sm text-gray-500">{namespace}</div>
+        <div className="text-left text-sm text-gray-900">{name}</div>
+        <div className="text-left text-sm text-gray-500">{namespace}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span
