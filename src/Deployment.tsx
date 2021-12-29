@@ -1,5 +1,5 @@
 import { useSWRConfig } from 'swr';
-import { DeploymentData } from './types';
+import { DeploymentData, MetaData, Spec } from './types';
 import { apiServer } from './config';
 
 interface DeploymentProps {
@@ -7,6 +7,12 @@ interface DeploymentProps {
 }
 
 const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
+  const {
+    metadata: { name, namespace },
+    spec: { replicas: specReplicas },
+    status: { replicas: statusReplicas },
+  } = deployment;
+
   const { mutate } = useSWRConfig();
 
   const scale = async (
@@ -54,9 +60,9 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
   };
 
   return (
-    <tr key={`${deployment.metadata.namespace}|${deployment.metadata.name}`}>
+    <tr key={`${name}|${namespace}`}>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-900">{deployment.metadata.name}</div>
+        <div className="text-sm text-gray-900">{name}</div>
         <div className="text-sm text-gray-500">
           {deployment.metadata.namespace}
         </div>
@@ -67,7 +73,7 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-        {deployment.status.replicas} / {deployment.spec.replicas}
+        {statusReplicas || 0} / {specReplicas}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <a

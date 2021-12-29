@@ -69,7 +69,7 @@ const DeploymentList = (): JSX.Element => {
                     })
                     .map((deployment) => (
                       <Deployment
-                        key={`${deployment.metadata.namespace}|${deployment.metadata.name}`}
+                        key={`${deployment.metadata.name}|${deployment.metadata.namespace}`}
                         deployment={deployment}
                       />
                     ))}

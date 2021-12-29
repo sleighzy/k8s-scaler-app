@@ -3,7 +3,20 @@ export interface DeploymentListData {
 }
 
 export interface DeploymentData {
-  metadata: any;
-  spec: any;
-  status: any;
+  metadata: MetaData;
+  spec: Spec;
+  status: Status;
+}
+
+export interface MetaData {
+  name: string;
+  namespace: string;
+}
+
+export interface Spec {
+  replicas: number;
+}
+
+export interface Status {
+  replicas?: number;
 }
