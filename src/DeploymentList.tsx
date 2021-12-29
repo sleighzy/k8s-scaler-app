@@ -1,8 +1,7 @@
 import Deployment from './Deployment';
 import useSWR from 'swr';
 import { DeploymentListData } from './types';
-
-const apiServer = 'http://localhost';
+import { apiServer } from './config';
 
 const fetcher = async (url: string): Promise<DeploymentListData> => {
   const response = await fetch(url, {

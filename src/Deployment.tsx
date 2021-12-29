@@ -1,11 +1,10 @@
 import { useSWRConfig } from 'swr';
 import { DeploymentData } from './types';
+import { apiServer } from './config';
 
 interface DeploymentProps {
   deployment: DeploymentData;
 }
-
-const apiServer = 'http://localhost';
 
 const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
   const { mutate } = useSWRConfig();
