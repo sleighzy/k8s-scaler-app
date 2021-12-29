@@ -1,5 +1,6 @@
+import { toast } from 'react-hot-toast';
 import { useSWRConfig } from 'swr';
-import { DeploymentData, MetaData, Spec } from './types';
+import { DeploymentData } from './types';
 import { apiServer } from './config';
 
 interface DeploymentProps {
@@ -7,23 +8,18 @@ interface DeploymentProps {
 }
 
 const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
+  const { mutate } = useSWRConfig();
   const {
     metadata: { name, namespace },
     spec: { replicas: specReplicas },
     status: { replicas: statusReplicas },
   } = deployment;
 
-  const { mutate } = useSWRConfig();
-
-  const scale = async (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    deployment: DeploymentData,
-    scale: number
+  const scaleReplicas = async (
+    name: string,
+    namespace: string,
+    replicas: number
   ) => {
-    event.preventDefault();
-    const { namespace, name } = deployment.metadata;
-    const replicas = deployment.spec.replicas + scale;
-
     if (replicas < 0) {
       return;
     }
@@ -55,6 +51,30 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
     // trigger a re-validation so that the deployment list is fetched again and
     // the new replicas count is displayed as each item in the list is rendered
     mutate(`${apiServer}/apis/apps/v1/deployments`);
+  };
+
+  const scale = async (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    deployment: DeploymentData,
+    scale: number
+  ) => {
+    event.preventDefault();
+
+    const {
+      metadata: { name, namespace },
+      spec: { replicas: currentReplicas },
+    } = deployment;
+
+    const replicas = currentReplicas + scale;
+    if (replicas < 0 || replicas === currentReplicas) {
+      return;
+    }
+
+    toast.promise(scaleReplicas(name, namespace, replicas), {
+      loading: `Scaling ${name}/${namespace} to ${replicas}`,
+      error: () => `Failed to scale ${name}/${namespace} to ${replicas}`,
+      success: () => `Scaled ${name}/${namespace} to ${replicas}`,
+    });
   };
 
   const statusText = specReplicas === 0 ? 'Inactive' : 'Available';
