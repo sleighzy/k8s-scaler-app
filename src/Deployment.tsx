@@ -99,7 +99,7 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <a
           href="#"
-          className="text-gray-400 hover:text-blue-600"
+          className="text-sky-500 hover:text-blue-600"
           onClick={(event) => scale(event, deployment, 1)}
         >
           Up
@@ -107,7 +107,11 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
         {' | '}
         <a
           href="#"
-          className="text-gray-400 hover:text-blue-600"
+          className={
+            specReplicas > 0
+              ? 'text-sky-500 hover:text-blue-600'
+              : 'text-gray-400 pointer-events-none'
+          }
           onClick={(event) => scale(event, deployment, -1)}
         >
           Down
