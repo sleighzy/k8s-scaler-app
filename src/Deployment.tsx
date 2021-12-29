@@ -20,17 +20,15 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
     deployment: DeploymentData,
     scale: number
   ) => {
-    const { namespace, name } = deployment.metadata;
-
     event.preventDefault();
+    const { namespace, name } = deployment.metadata;
     const replicas = deployment.spec.replicas + scale;
-    console.log(`Scaling to ${replicas}`);
 
-    const payload = {
-      spec: {
-        replicas,
-      },
-    };
+    if (replicas < 0) {
+      return;
+    }
+
+    console.log(`Scaling deployment ${name}/${namespace} to ${replicas}`);
 
     const response = await fetch(
       `${apiServer}/apis/apps/v1/namespaces/${namespace}/deployments/${name}/scale`,
@@ -66,9 +64,7 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
     <tr key={`${name}|${namespace}`}>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-900">{name}</div>
-        <div className="text-sm text-gray-500">
-          {deployment.metadata.namespace}
-        </div>
+        <div className="text-sm text-gray-500">{namespace}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span
