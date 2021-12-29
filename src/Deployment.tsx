@@ -1,4 +1,4 @@
-import useSWR, { useSWRConfig } from 'swr';
+import { useSWRConfig } from 'swr';
 import { DeploymentData } from './types';
 
 interface DeploymentProps {
