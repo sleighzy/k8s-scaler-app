@@ -31,7 +31,7 @@ const DeploymentList = (): JSX.Element => {
 
   return (
     <div>
-      <h1>Deployment List</h1>
+      <h1 className="text-3xl font-bold underline">Deployments</h1>
       {data.items.map((deployment) => (
         <Deployment deployment={deployment} />
       ))}
