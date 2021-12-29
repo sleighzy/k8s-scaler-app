@@ -59,6 +59,9 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
     mutate(`${apiServer}/apis/apps/v1/deployments`);
   };
 
+  const statusText = specReplicas === 0 ? 'Inactive' : 'Available';
+  const statusColor = specReplicas === 0 ? 'slate' : 'green';
+
   return (
     <tr key={`${name}|${namespace}`}>
       <td className="px-6 py-4 whitespace-nowrap">
@@ -68,8 +71,10 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-          Available
+        <span
+          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${statusColor}-100 text-${statusColor}-800`}
+        >
+          {statusText}
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -78,7 +83,7 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <a
           href="#"
-          className="text-blue-600 hover:text-indigo-900"
+          className="text-gray-400 hover:text-blue-600"
           onClick={(event) => scale(event, deployment, 1)}
         >
           Up
@@ -86,7 +91,7 @@ const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
         {' | '}
         <a
           href="#"
-          className="text-blue-600 hover:text-indigo-900"
+          className="text-gray-400 hover:text-blue-600"
           onClick={(event) => scale(event, deployment, -1)}
         >
           Down
