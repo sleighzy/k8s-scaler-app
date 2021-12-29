@@ -1,16 +1,13 @@
+import { DeploymentData } from './types';
+
 interface DeploymentProps {
-  namespace: string;
-  name: string;
-  replicas: number;
+  deployment: DeploymentData;
 }
 
-const Deployment = ({
-  namespace,
-  name,
-  replicas,
-}: DeploymentProps): JSX.Element => (
+const Deployment = ({ deployment }: DeploymentProps): JSX.Element => (
   <div>
-    {namespace}/{name}: {replicas}
+    {deployment.metadata.namespace}/{deployment.metadata.name}:{' '}
+    {deployment.spec.replicas}
   </div>
 );
 

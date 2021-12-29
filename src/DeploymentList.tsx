@@ -1,17 +1,8 @@
 import Deployment from './Deployment';
 import useSWR from 'swr';
+import { DeploymentListData } from './types';
 
 const apiServer = 'http://localhost';
-
-interface DeploymentListData {
-  items: DeploymentData[];
-}
-
-interface DeploymentData {
-  metadata: any;
-  spec: any;
-  status: any;
-}
 
 const fetcher = async (url: string): Promise<DeploymentListData> => {
   const response = await fetch(url, {
@@ -41,12 +32,8 @@ const DeploymentList = (): JSX.Element => {
   return (
     <div>
       <h1>Deployment List</h1>
-      {data.items.map(({ metadata, spec }) => (
-        <Deployment
-          namespace={metadata.namespace}
-          name={metadata.name}
-          replicas={spec.replicas}
-        />
+      {data.items.map((deployment) => (
+        <Deployment deployment={deployment} />
       ))}
     </div>
   );
