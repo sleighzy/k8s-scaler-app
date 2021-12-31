@@ -1,3 +1,4 @@
+import React from 'react';
 import Deployment from './Deployment';
 import useSWR from 'swr';
 import { DeploymentListData } from './types';
@@ -18,7 +19,7 @@ const fetcher = async (url: string): Promise<DeploymentListData> => {
   return data;
 };
 
-const DeploymentList = (): JSX.Element => {
+const DeploymentList: React.FunctionComponent = () => {
   const { data, error } = useSWR<DeploymentListData, Error>(
     `${apiServer}/apis/apps/v1/deployments`,
     fetcher

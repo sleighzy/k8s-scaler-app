@@ -1,3 +1,4 @@
+import React from 'react';
 import { toast } from 'react-hot-toast';
 import { useSWRConfig } from 'swr';
 import { DeploymentData } from './types';
@@ -7,7 +8,9 @@ interface DeploymentProps {
   deployment: DeploymentData;
 }
 
-const Deployment = ({ deployment }: DeploymentProps): JSX.Element => {
+const Deployment: React.FunctionComponent<DeploymentProps> = ({
+  deployment,
+}) => {
   const { mutate } = useSWRConfig();
   const {
     metadata: { name, namespace },
