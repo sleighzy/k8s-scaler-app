@@ -81,7 +81,10 @@ const Deployment: React.FunctionComponent<DeploymentProps> = ({
   };
 
   const statusText = specReplicas === 0 ? 'Inactive' : 'Available';
-  const statusColor = specReplicas === 0 ? 'slate' : 'green';
+  const statusBackgroundColor =
+    specReplicas === 0 ? 'bg-slate-100' : 'bg-green-100';
+  const statusTextColor =
+    specReplicas === 0 ? 'text-slate-800' : 'text-green-800';
 
   return (
     <tr key={`${name}|${namespace}`}>
@@ -91,7 +94,7 @@ const Deployment: React.FunctionComponent<DeploymentProps> = ({
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span
-          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${statusColor}-100 text-${statusColor}-800`}
+          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusBackgroundColor} ${statusTextColor}`}
         >
           {statusText}
         </span>
