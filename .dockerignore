@@ -1,0 +1,16 @@
+.gitignore
+.editorconfig
+.markdownlint.json
+.prettierignore
+.prettierrc
+.prettierrc.yaml
+*.log
+*.md
+docker-compose.yaml
+npm-debug.log
+
+.git/
+.vscode/
+node_modules/
+dist/
+build/

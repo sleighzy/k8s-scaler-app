@@ -63,18 +63,23 @@ the `OPTIONS` calls made by the browser for preflight checks which is not
 supported by `kubectl`. The web application makes API calls via Nginx which then
 proxies them through `kubectl`.
 
-## Running the Deployment
+## Running the Deployment in Dev Mode
 
 In the project directory, you can run the following commands to start the web
 application and make API calls to display the list of Kubernetes deployments:
 
-Run the below command to proxy API requests via kubectl. This will start listening
-on port `32080` and will be accessible from the browser on `localhost:3000` due
-to the `--disable-filter=true` flag as otherwise only calls from `localhost` will
-be accepted.
+Run the below command to proxy API requests via kubectl:
+
+- this will start listening on port `8001` by default
+- the `--api-prefix=/k8s-api` flag is used by `kubectl` to serve the API under `/k8s-api`.
+  This is required as by default this is normally served up from `/` so clashes
+  with the web application and the associated Nginx config.
+- API calls made from the browser on `localhost:3000` (app running in dev mode)
+  will be allowed due to the `--disable-filter=true` flag as otherwise only calls
+  from `localhost` are accepted.
 
 ```plain
-sudo kubectl proxy --port=32080 --disable-filter=true
+sudo kubectl proxy --api-prefix=/k8s-api --disable-filter=true
 ```
 
 Run the below command to start an Nginx container with proxy configuration that
@@ -92,7 +97,7 @@ contains the default configuration for:
 docker run --rm \
   --name nginx \
   -p 80:80 \
-  -e PROXY_PORT=32080 \
+  -e PROXY_PORT=8001 \
   -v $(pwd)/nginx/templates:/etc/nginx/templates \
   nginx:alpine
 ```
@@ -106,6 +111,21 @@ npm start
 Navigate to <http://localhost:3000> to view the list of Kubernetes deployments.
 
 The **Up** and **Down** links can be used to scale each deployment up and down.
+
+## Building and Running the Production Docker Image
+
+This web application can be built and run as a Docker image in production mode.
+The [Dockerfile](./Dockerfile) file contains a multi-stage build process. The
+first stage performs a production build of the React components and the second
+stage copies these into an Nginx image.
+
+This can be built and run using Docker Compose by running the below command.
+
+```plain
+docker-compose up -d && docker-compose logs -f
+```
+
+Navigate to <http://localhost> to view the list of Kubernetes deployments.
 
 ## Available Scripts
 

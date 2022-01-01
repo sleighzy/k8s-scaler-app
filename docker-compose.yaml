@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  k8s-scaler-app:
+    build:
+      context: .
+    image: k8s-scaler-app
+    ports:
+      - 80:80
+    environment:
+      PROXY_PORT: 8001
