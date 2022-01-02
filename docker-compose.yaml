@@ -5,6 +5,9 @@ services:
     build:
       context: .
     image: k8s-scaler-app
+    logging:
+      options:
+        max-size: '10m'
     ports:
       - 80:80
     environment:

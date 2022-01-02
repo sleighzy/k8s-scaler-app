@@ -49,7 +49,7 @@ scale a deployment, with this being proxied via kubectl so doesn't require
 authentication headers, certificates, or additional Kubernetes configuration.
 
 ```plain
-sudo kubectl proxy &
+kubectl proxy &
 
 curl -X PATCH \
   -H 'Content-Type: application/strategic-merge-patch+json' \
@@ -79,7 +79,7 @@ Run the below command to proxy API requests via kubectl:
   from `localhost` are accepted.
 
 ```plain
-sudo kubectl proxy --api-prefix=/k8s-api --disable-filter=true
+kubectl proxy --api-prefix=/k8s-api --disable-filter=true
 ```
 
 Run the below command to start an Nginx container with proxy configuration that
